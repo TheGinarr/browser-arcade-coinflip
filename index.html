@@ -1,44 +1,69 @@
 <!doctype html>
 <html lang="de">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#07070f">
-  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/style.css">
-  <!-- spielspezifische Styles (3D-Münze, Wurf-Animation) – das gemeinsame Design bleibt in ../assets/style.css -->
-  <link rel="stylesheet" href="./spiel.css">
-  <title>Coinflip · Browser-Arcade</title>
-  <meta name="description" content="Coinflip: Kopf oder Zahl? Und manchmal landet die Münze auf der Kante. Arcade: baue die längste Kette richtiger Tipps. Casino: tippe mit Spielgeld auf Kopf, Zahl oder Kante. Mit 3D-Münzwurf, ohne Konto und Cookies.">
-</head>
-<body style="--ak:var(--gold)">
-  <div class="raster" aria-hidden="true"></div>
-  <a class="skip-link" href="#main">Zum Inhalt springen</a>
-  <header class="kopf"><nav class="container nav" aria-label="Hauptnavigation">
-    <a class="marke" href="./"><span class="logo">▶</span>GAMES</a>
-    <div class="nav-links"><a href="./impressum.html">Impressum</a><a href="./datenschutz.html">Datenschutz</a></div>
-  </nav></header>
-  <main id="main" class="container">
-    <div class="spiel-kopf"><div><h1>COINFLIP</h1><p class="unterzeile">Kopf oder Zahl? Selten auch die Kante. Arcade: baue die längste Kette. Casino: tippe mit Spielgeld.</p></div></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#07070f" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./assets/style.css" />
+    <!-- spielspezifische Styles (3D-Münze, Wurf-Animation) – das gemeinsame Design bleibt in ../assets/style.css -->
+    <link rel="stylesheet" href="./spiel.css" />
+    <title>Coinflip · Browser-Arcade</title>
+    <meta
+      name="description"
+      content="Coinflip: Kopf oder Zahl? Und manchmal landet die Münze auf der Kante. Arcade: baue die längste Kette richtiger Tipps. Casino: tippe mit Spielgeld auf Kopf, Zahl oder Kante. Mit 3D-Münzwurf, ohne Konto und Cookies."
+    />
+  </head>
+  <body style="--ak: var(--gold)">
+    <div class="raster" aria-hidden="true"></div>
+    <a class="skip-link" href="#main">Zum Inhalt springen</a>
+    <header class="kopf">
+      <nav class="container nav" aria-label="Hauptnavigation">
+        <a class="marke" href="./"><span class="logo">▶</span>GAMES</a>
+        <div class="nav-links">
+          <a href="./impressum.html">Impressum</a><a href="./datenschutz.html">Datenschutz</a>
+        </div>
+      </nav>
+    </header>
+    <main id="main" class="container">
+      <div class="spiel-kopf">
+        <div>
+          <h1>COINFLIP</h1>
+          <p class="unterzeile">
+            Kopf oder Zahl? Selten auch die Kante. Arcade: baue die längste Kette. Casino: tippe mit
+            Spielgeld.
+          </p>
+        </div>
+      </div>
 
-    <!-- Modus-Umschalter: gleicher Aufbau wie bei Higher Lower. Der gewählte Modus steht in aria-pressed. -->
-    <div class="modus-leiste" role="group" aria-label="Spielmodus">
-      <button type="button" class="knopf" data-modus="arcade" aria-pressed="true">Arcade <small>Längste Kette · ohne Geld</small></button>
-      <button type="button" class="knopf" data-modus="casino" aria-pressed="false">Casino <small>Spielgeld · ×1,94 · Kante ×47</small></button>
-    </div>
+      <!-- Modus-Umschalter: gleicher Aufbau wie bei Higher Lower. Der gewählte Modus steht in aria-pressed. -->
+      <div class="modus-leiste" role="group" aria-label="Spielmodus">
+        <button type="button" class="knopf" data-modus="arcade" aria-pressed="true">
+          Arcade <small>Längste Kette · ohne Geld</small>
+        </button>
+        <button type="button" class="knopf" data-modus="casino" aria-pressed="false">
+          Casino <small>Spielgeld · ×1,94 · Kante ×47</small>
+        </button>
+      </div>
 
-    <!-- Arcade-HUD -->
-    <div class="hud" id="hud-arcade" data-nur="arcade">
-      <div class="hud-feld"><div class="label">Kette</div><div class="wert" id="hud-kette">0</div></div>
-      <div class="hud-feld"><div class="label">Rekord-Kette</div><div class="wert" id="hud-rekord">0</div></div>
-    </div>
-    <!-- Casino-HUD: Kontostand, höchster Gewinn und bester Stand baut walletHud() aus wallet.js -->
-    <div class="hud" id="hud-casino" data-nur="casino" hidden>
-      <div class="hud-wallet" id="wallet-hud"></div>
-    </div>
+      <!-- Arcade-HUD -->
+      <div class="hud" id="hud-arcade" data-nur="arcade">
+        <div class="hud-feld">
+          <div class="label">Kette</div>
+          <div class="wert" id="hud-kette">0</div>
+        </div>
+        <div class="hud-feld">
+          <div class="label">Rekord-Kette</div>
+          <div class="wert" id="hud-rekord">0</div>
+        </div>
+      </div>
+      <!-- Casino-HUD: Kontostand, höchster Gewinn und bester Stand baut walletHud() aus wallet.js -->
+      <div class="hud" id="hud-casino" data-nur="casino" hidden>
+        <div class="hud-wallet" id="wallet-hud"></div>
+      </div>
 
-    <div class="buehne">
-      <!--
+      <div class="buehne">
+        <!--
         Die Münze besteht nur aus HTML + Inline-SVG (kein Bild, keine Fremdgrafik):
           .muenze-hub      springt nach oben und wieder herunter (CSS-Keyframes)
             .muenze-szene  setzt die Perspektive; wackelt bei KANTE aus
@@ -47,123 +72,565 @@
                   .rand    viele schmale Streifen = Münzrand und Dicke (game.js baut sie)
                   .seite   Vorderseite KOPF und Rückseite ZAHL
       -->
-      <div class="muenze-feld" id="muenze-feld">
-        <div class="muenze-schatten" id="muenze-schatten" aria-hidden="true"></div>
-        <div class="muenze-hub" id="muenze-hub">
-          <div class="muenze-szene" id="muenze-szene">
-            <div class="muenze-stand" id="muenze-stand">
-            <div class="muenze" id="muenze" role="img" aria-label="Münze: zeigt KOPF">
-              <div class="rand" id="muenze-rand" aria-hidden="true"></div>
+        <div class="muenze-feld" id="muenze-feld">
+          <div class="muenze-schatten" id="muenze-schatten" aria-hidden="true"></div>
+          <div class="muenze-hub" id="muenze-hub">
+            <div class="muenze-szene" id="muenze-szene">
+              <div class="muenze-stand" id="muenze-stand">
+                <div class="muenze" id="muenze" role="img" aria-label="Münze: zeigt KOPF">
+                  <div class="rand" id="muenze-rand" aria-hidden="true"></div>
 
-              <!-- Vorderseite: stilisierter Pixel-Kopf im Profil (Eigenentwurf) -->
-              <div class="seite vorne">
-                <svg viewBox="0 0 200 200" aria-hidden="true" focusable="false">
-                  <defs><radialGradient id="gold-kopf" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#fff0b8"/><stop offset=".55" stop-color="#ffc84d"/><stop offset="1" stop-color="#b57a10"/></radialGradient></defs>
-                  <circle cx="100" cy="100" r="98" fill="url(#gold-kopf)"/>
-                  <circle cx="100" cy="100" r="92" pathLength="180" fill="none" stroke="#8a5a0a" stroke-width="5" stroke-dasharray="1 1" opacity=".65"/>
-                  <circle cx="100" cy="100" r="84" fill="#e7b23e" stroke="#8a5a0a" stroke-width="2"/>
-                  <circle cx="100" cy="100" r="81" fill="none" stroke="#fff0c0" stroke-width="1.5" opacity=".6"/>
-                  <g shape-rendering="crispEdges"><rect x="87.4" y="40.6" width="33.6" height="4.8" fill="#fff0c0"/><rect x="77.8" y="45.4" width="57.6" height="4.8" fill="#fff0c0"/><rect x="73" y="50.2" width="67.2" height="4.8" fill="#fff0c0"/><rect x="68.2" y="55" width="76.8" height="4.8" fill="#fff0c0"/><rect x="68.2" y="59.8" width="72" height="4.8" fill="#fff0c0"/><rect x="140.2" y="59.8" width="9.6" height="4.8" fill="#fff0c0"/><rect x="63.4" y="64.6" width="67.2" height="4.8" fill="#fff0c0"/><rect x="130.6" y="64.6" width="19.2" height="4.8" fill="#fff0c0"/><rect x="63.4" y="69.4" width="62.4" height="4.8" fill="#fff0c0"/><rect x="125.8" y="69.4" width="24" height="4.8" fill="#fff0c0"/><rect x="63.4" y="74.2" width="52.8" height="4.8" fill="#fff0c0"/><rect x="116.2" y="74.2" width="33.6" height="4.8" fill="#fff0c0"/><rect x="63.4" y="79" width="48" height="4.8" fill="#fff0c0"/><rect x="111.4" y="79" width="9.6" height="4.8" fill="#fff0c0"/><rect x="121" y="79" width="4.8" height="4.8" fill="#fff0c0"/><rect x="125.8" y="79" width="24" height="4.8" fill="#fff0c0"/><rect x="63.4" y="83.8" width="48" height="4.8" fill="#fff0c0"/><rect x="111.4" y="83.8" width="38.4" height="4.8" fill="#fff0c0"/><rect x="63.4" y="88.6" width="33.6" height="4.8" fill="#fff0c0"/><rect x="97" y="88.6" width="9.6" height="4.8" fill="#fff0c0"/><rect x="106.6" y="88.6" width="48" height="4.8" fill="#fff0c0"/><rect x="63.4" y="93.4" width="33.6" height="4.8" fill="#fff0c0"/><rect x="97" y="93.4" width="9.6" height="4.8" fill="#fff0c0"/><rect x="106.6" y="93.4" width="43.2" height="4.8" fill="#fff0c0"/><rect x="63.4" y="98.2" width="33.6" height="4.8" fill="#fff0c0"/><rect x="97" y="98.2" width="9.6" height="4.8" fill="#fff0c0"/><rect x="106.6" y="98.2" width="38.4" height="4.8" fill="#fff0c0"/><rect x="63.4" y="103" width="43.2" height="4.8" fill="#fff0c0"/><rect x="106.6" y="103" width="24" height="4.8" fill="#fff0c0"/><rect x="130.6" y="103" width="9.6" height="4.8" fill="#fff0c0"/><rect x="140.2" y="103" width="9.6" height="4.8" fill="#fff0c0"/><rect x="63.4" y="107.8" width="43.2" height="4.8" fill="#fff0c0"/><rect x="106.6" y="107.8" width="38.4" height="4.8" fill="#fff0c0"/><rect x="63.4" y="112.6" width="43.2" height="4.8" fill="#fff0c0"/><rect x="106.6" y="112.6" width="33.6" height="4.8" fill="#fff0c0"/><rect x="68.2" y="117.4" width="33.6" height="4.8" fill="#fff0c0"/><rect x="101.8" y="117.4" width="33.6" height="4.8" fill="#fff0c0"/><rect x="77.8" y="122.2" width="24" height="4.8" fill="#fff0c0"/><rect x="101.8" y="122.2" width="28.8" height="4.8" fill="#fff0c0"/><rect x="87.4" y="127" width="9.6" height="4.8" fill="#fff0c0"/><rect x="97" y="127" width="28.8" height="4.8" fill="#fff0c0"/><rect x="87.4" y="131.8" width="33.6" height="4.8" fill="#fff0c0"/><rect x="82.6" y="136.6" width="43.2" height="4.8" fill="#fff0c0"/><rect x="77.8" y="141.4" width="52.8" height="4.8" fill="#fff0c0"/><rect x="73" y="146.2" width="62.4" height="4.8" fill="#fff0c0"/><rect x="85.6" y="38.8" width="33.6" height="4.8" fill="#8a5a0a"/><rect x="76" y="43.6" width="57.6" height="4.8" fill="#8a5a0a"/><rect x="71.2" y="48.4" width="67.2" height="4.8" fill="#8a5a0a"/><rect x="66.4" y="53.2" width="76.8" height="4.8" fill="#8a5a0a"/><rect x="66.4" y="58" width="72" height="4.8" fill="#8a5a0a"/><rect x="138.4" y="58" width="9.6" height="4.8" fill="#fff0c0"/><rect x="61.6" y="62.8" width="67.2" height="4.8" fill="#8a5a0a"/><rect x="128.8" y="62.8" width="19.2" height="4.8" fill="#fff0c0"/><rect x="61.6" y="67.6" width="62.4" height="4.8" fill="#8a5a0a"/><rect x="124" y="67.6" width="24" height="4.8" fill="#fff0c0"/><rect x="61.6" y="72.4" width="52.8" height="4.8" fill="#8a5a0a"/><rect x="114.4" y="72.4" width="33.6" height="4.8" fill="#fff0c0"/><rect x="61.6" y="77.2" width="48" height="4.8" fill="#8a5a0a"/><rect x="109.6" y="77.2" width="9.6" height="4.8" fill="#fff0c0"/><rect x="119.2" y="77.2" width="4.8" height="4.8" fill="#3d2204"/><rect x="124" y="77.2" width="24" height="4.8" fill="#fff0c0"/><rect x="61.6" y="82" width="48" height="4.8" fill="#8a5a0a"/><rect x="109.6" y="82" width="38.4" height="4.8" fill="#fff0c0"/><rect x="61.6" y="86.8" width="33.6" height="4.8" fill="#8a5a0a"/><rect x="95.2" y="86.8" width="9.6" height="4.8" fill="#d89a2a"/><rect x="104.8" y="86.8" width="48" height="4.8" fill="#fff0c0"/><rect x="61.6" y="91.6" width="33.6" height="4.8" fill="#8a5a0a"/><rect x="95.2" y="91.6" width="9.6" height="4.8" fill="#d89a2a"/><rect x="104.8" y="91.6" width="43.2" height="4.8" fill="#fff0c0"/><rect x="61.6" y="96.4" width="33.6" height="4.8" fill="#8a5a0a"/><rect x="95.2" y="96.4" width="9.6" height="4.8" fill="#d89a2a"/><rect x="104.8" y="96.4" width="38.4" height="4.8" fill="#fff0c0"/><rect x="61.6" y="101.2" width="43.2" height="4.8" fill="#8a5a0a"/><rect x="104.8" y="101.2" width="24" height="4.8" fill="#fff0c0"/><rect x="128.8" y="101.2" width="9.6" height="4.8" fill="#b8791a"/><rect x="138.4" y="101.2" width="9.6" height="4.8" fill="#fff0c0"/><rect x="61.6" y="106" width="43.2" height="4.8" fill="#8a5a0a"/><rect x="104.8" y="106" width="38.4" height="4.8" fill="#fff0c0"/><rect x="61.6" y="110.8" width="43.2" height="4.8" fill="#8a5a0a"/><rect x="104.8" y="110.8" width="33.6" height="4.8" fill="#fff0c0"/><rect x="66.4" y="115.6" width="33.6" height="4.8" fill="#8a5a0a"/><rect x="100" y="115.6" width="33.6" height="4.8" fill="#fff0c0"/><rect x="76" y="120.4" width="24" height="4.8" fill="#8a5a0a"/><rect x="100" y="120.4" width="28.8" height="4.8" fill="#fff0c0"/><rect x="85.6" y="125.2" width="9.6" height="4.8" fill="#8a5a0a"/><rect x="95.2" y="125.2" width="28.8" height="4.8" fill="#fff0c0"/><rect x="85.6" y="130" width="33.6" height="4.8" fill="#fff0c0"/><rect x="80.8" y="134.8" width="43.2" height="4.8" fill="#fff0c0"/><rect x="76" y="139.6" width="52.8" height="4.8" fill="#fff0c0"/><rect x="71.2" y="144.4" width="62.4" height="4.8" fill="#fff0c0"/></g>
-                  <text x="101" y="173" text-anchor="middle" class="muenze-schrift" fill="#7a4d0c">KOPF</text>
-                  <text x="100" y="172" text-anchor="middle" class="muenze-schrift" fill="#fff0c0">KOPF</text>
-                </svg>
-              </div>
+                  <!-- Vorderseite: stilisierter Pixel-Kopf im Profil (Eigenentwurf) -->
+                  <div class="seite vorne">
+                    <svg viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+                      <defs>
+                        <radialGradient id="gold-kopf" cx="35%" cy="30%" r="80%">
+                          <stop offset="0" stop-color="#fff0b8" />
+                          <stop offset=".55" stop-color="#ffc84d" />
+                          <stop offset="1" stop-color="#b57a10" />
+                        </radialGradient>
+                      </defs>
+                      <circle cx="100" cy="100" r="98" fill="url(#gold-kopf)" />
+                      <circle
+                        cx="100"
+                        cy="100"
+                        r="92"
+                        pathLength="180"
+                        fill="none"
+                        stroke="#8a5a0a"
+                        stroke-width="5"
+                        stroke-dasharray="1 1"
+                        opacity=".65"
+                      />
+                      <circle
+                        cx="100"
+                        cy="100"
+                        r="84"
+                        fill="#e7b23e"
+                        stroke="#8a5a0a"
+                        stroke-width="2"
+                      />
+                      <circle
+                        cx="100"
+                        cy="100"
+                        r="81"
+                        fill="none"
+                        stroke="#fff0c0"
+                        stroke-width="1.5"
+                        opacity=".6"
+                      />
+                      <g shape-rendering="crispEdges">
+                        <rect x="87.4" y="40.6" width="33.6" height="4.8" fill="#fff0c0" />
+                        <rect x="77.8" y="45.4" width="57.6" height="4.8" fill="#fff0c0" />
+                        <rect x="73" y="50.2" width="67.2" height="4.8" fill="#fff0c0" />
+                        <rect x="68.2" y="55" width="76.8" height="4.8" fill="#fff0c0" />
+                        <rect x="68.2" y="59.8" width="72" height="4.8" fill="#fff0c0" />
+                        <rect x="140.2" y="59.8" width="9.6" height="4.8" fill="#fff0c0" />
+                        <rect x="63.4" y="64.6" width="67.2" height="4.8" fill="#fff0c0" />
+                        <rect x="130.6" y="64.6" width="19.2" height="4.8" fill="#fff0c0" />
+                        <rect x="63.4" y="69.4" width="62.4" height="4.8" fill="#fff0c0" />
+                        <rect x="125.8" y="69.4" width="24" height="4.8" fill="#fff0c0" />
+                        <rect x="63.4" y="74.2" width="52.8" height="4.8" fill="#fff0c0" />
+                        <rect x="116.2" y="74.2" width="33.6" height="4.8" fill="#fff0c0" />
+                        <rect x="63.4" y="79" width="48" height="4.8" fill="#fff0c0" />
+                        <rect x="111.4" y="79" width="9.6" height="4.8" fill="#fff0c0" />
+                        <rect x="121" y="79" width="4.8" height="4.8" fill="#fff0c0" />
+                        <rect x="125.8" y="79" width="24" height="4.8" fill="#fff0c0" />
+                        <rect x="63.4" y="83.8" width="48" height="4.8" fill="#fff0c0" />
+                        <rect x="111.4" y="83.8" width="38.4" height="4.8" fill="#fff0c0" />
+                        <rect x="63.4" y="88.6" width="33.6" height="4.8" fill="#fff0c0" />
+                        <rect x="97" y="88.6" width="9.6" height="4.8" fill="#fff0c0" />
+                        <rect x="106.6" y="88.6" width="48" height="4.8" fill="#fff0c0" />
+                        <rect x="63.4" y="93.4" width="33.6" height="4.8" fill="#fff0c0" />
+                        <rect x="97" y="93.4" width="9.6" height="4.8" fill="#fff0c0" />
+                        <rect x="106.6" y="93.4" width="43.2" height="4.8" fill="#fff0c0" />
+                        <rect x="63.4" y="98.2" width="33.6" height="4.8" fill="#fff0c0" />
+                        <rect x="97" y="98.2" width="9.6" height="4.8" fill="#fff0c0" />
+                        <rect x="106.6" y="98.2" width="38.4" height="4.8" fill="#fff0c0" />
+                        <rect x="63.4" y="103" width="43.2" height="4.8" fill="#fff0c0" />
+                        <rect x="106.6" y="103" width="24" height="4.8" fill="#fff0c0" />
+                        <rect x="130.6" y="103" width="9.6" height="4.8" fill="#fff0c0" />
+                        <rect x="140.2" y="103" width="9.6" height="4.8" fill="#fff0c0" />
+                        <rect x="63.4" y="107.8" width="43.2" height="4.8" fill="#fff0c0" />
+                        <rect x="106.6" y="107.8" width="38.4" height="4.8" fill="#fff0c0" />
+                        <rect x="63.4" y="112.6" width="43.2" height="4.8" fill="#fff0c0" />
+                        <rect x="106.6" y="112.6" width="33.6" height="4.8" fill="#fff0c0" />
+                        <rect x="68.2" y="117.4" width="33.6" height="4.8" fill="#fff0c0" />
+                        <rect x="101.8" y="117.4" width="33.6" height="4.8" fill="#fff0c0" />
+                        <rect x="77.8" y="122.2" width="24" height="4.8" fill="#fff0c0" />
+                        <rect x="101.8" y="122.2" width="28.8" height="4.8" fill="#fff0c0" />
+                        <rect x="87.4" y="127" width="9.6" height="4.8" fill="#fff0c0" />
+                        <rect x="97" y="127" width="28.8" height="4.8" fill="#fff0c0" />
+                        <rect x="87.4" y="131.8" width="33.6" height="4.8" fill="#fff0c0" />
+                        <rect x="82.6" y="136.6" width="43.2" height="4.8" fill="#fff0c0" />
+                        <rect x="77.8" y="141.4" width="52.8" height="4.8" fill="#fff0c0" />
+                        <rect x="73" y="146.2" width="62.4" height="4.8" fill="#fff0c0" />
+                        <rect x="85.6" y="38.8" width="33.6" height="4.8" fill="#8a5a0a" />
+                        <rect x="76" y="43.6" width="57.6" height="4.8" fill="#8a5a0a" />
+                        <rect x="71.2" y="48.4" width="67.2" height="4.8" fill="#8a5a0a" />
+                        <rect x="66.4" y="53.2" width="76.8" height="4.8" fill="#8a5a0a" />
+                        <rect x="66.4" y="58" width="72" height="4.8" fill="#8a5a0a" />
+                        <rect x="138.4" y="58" width="9.6" height="4.8" fill="#fff0c0" />
+                        <rect x="61.6" y="62.8" width="67.2" height="4.8" fill="#8a5a0a" />
+                        <rect x="128.8" y="62.8" width="19.2" height="4.8" fill="#fff0c0" />
+                        <rect x="61.6" y="67.6" width="62.4" height="4.8" fill="#8a5a0a" />
+                        <rect x="124" y="67.6" width="24" height="4.8" fill="#fff0c0" />
+                        <rect x="61.6" y="72.4" width="52.8" height="4.8" fill="#8a5a0a" />
+                        <rect x="114.4" y="72.4" width="33.6" height="4.8" fill="#fff0c0" />
+                        <rect x="61.6" y="77.2" width="48" height="4.8" fill="#8a5a0a" />
+                        <rect x="109.6" y="77.2" width="9.6" height="4.8" fill="#fff0c0" />
+                        <rect x="119.2" y="77.2" width="4.8" height="4.8" fill="#3d2204" />
+                        <rect x="124" y="77.2" width="24" height="4.8" fill="#fff0c0" />
+                        <rect x="61.6" y="82" width="48" height="4.8" fill="#8a5a0a" />
+                        <rect x="109.6" y="82" width="38.4" height="4.8" fill="#fff0c0" />
+                        <rect x="61.6" y="86.8" width="33.6" height="4.8" fill="#8a5a0a" />
+                        <rect x="95.2" y="86.8" width="9.6" height="4.8" fill="#d89a2a" />
+                        <rect x="104.8" y="86.8" width="48" height="4.8" fill="#fff0c0" />
+                        <rect x="61.6" y="91.6" width="33.6" height="4.8" fill="#8a5a0a" />
+                        <rect x="95.2" y="91.6" width="9.6" height="4.8" fill="#d89a2a" />
+                        <rect x="104.8" y="91.6" width="43.2" height="4.8" fill="#fff0c0" />
+                        <rect x="61.6" y="96.4" width="33.6" height="4.8" fill="#8a5a0a" />
+                        <rect x="95.2" y="96.4" width="9.6" height="4.8" fill="#d89a2a" />
+                        <rect x="104.8" y="96.4" width="38.4" height="4.8" fill="#fff0c0" />
+                        <rect x="61.6" y="101.2" width="43.2" height="4.8" fill="#8a5a0a" />
+                        <rect x="104.8" y="101.2" width="24" height="4.8" fill="#fff0c0" />
+                        <rect x="128.8" y="101.2" width="9.6" height="4.8" fill="#b8791a" />
+                        <rect x="138.4" y="101.2" width="9.6" height="4.8" fill="#fff0c0" />
+                        <rect x="61.6" y="106" width="43.2" height="4.8" fill="#8a5a0a" />
+                        <rect x="104.8" y="106" width="38.4" height="4.8" fill="#fff0c0" />
+                        <rect x="61.6" y="110.8" width="43.2" height="4.8" fill="#8a5a0a" />
+                        <rect x="104.8" y="110.8" width="33.6" height="4.8" fill="#fff0c0" />
+                        <rect x="66.4" y="115.6" width="33.6" height="4.8" fill="#8a5a0a" />
+                        <rect x="100" y="115.6" width="33.6" height="4.8" fill="#fff0c0" />
+                        <rect x="76" y="120.4" width="24" height="4.8" fill="#8a5a0a" />
+                        <rect x="100" y="120.4" width="28.8" height="4.8" fill="#fff0c0" />
+                        <rect x="85.6" y="125.2" width="9.6" height="4.8" fill="#8a5a0a" />
+                        <rect x="95.2" y="125.2" width="28.8" height="4.8" fill="#fff0c0" />
+                        <rect x="85.6" y="130" width="33.6" height="4.8" fill="#fff0c0" />
+                        <rect x="80.8" y="134.8" width="43.2" height="4.8" fill="#fff0c0" />
+                        <rect x="76" y="139.6" width="52.8" height="4.8" fill="#fff0c0" />
+                        <rect x="71.2" y="144.4" width="62.4" height="4.8" fill="#fff0c0" />
+                      </g>
+                      <text
+                        x="101"
+                        y="173"
+                        text-anchor="middle"
+                        class="muenze-schrift"
+                        fill="#7a4d0c"
+                      >
+                        KOPF
+                      </text>
+                      <text
+                        x="100"
+                        y="172"
+                        text-anchor="middle"
+                        class="muenze-schrift"
+                        fill="#fff0c0"
+                      >
+                        KOPF
+                      </text>
+                    </svg>
+                  </div>
 
-              <!-- Rückseite: große geprägte Ziffer. Sie ist ab Werk um 180° gedreht (siehe spiel.css). -->
-              <div class="seite hinten">
-                <svg viewBox="0 0 200 200" aria-hidden="true" focusable="false">
-                  <defs><radialGradient id="gold-zahl" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#fff0b8"/><stop offset=".55" stop-color="#ffc84d"/><stop offset="1" stop-color="#b57a10"/></radialGradient></defs>
-                  <circle cx="100" cy="100" r="98" fill="url(#gold-zahl)"/>
-                  <circle cx="100" cy="100" r="92" pathLength="180" fill="none" stroke="#8a5a0a" stroke-width="5" stroke-dasharray="1 1" opacity=".65"/>
-                  <circle cx="100" cy="100" r="84" fill="#e7b23e" stroke="#8a5a0a" stroke-width="2"/>
-                  <circle cx="100" cy="100" r="81" fill="none" stroke="#fff0c0" stroke-width="1.5" opacity=".6"/>
-                  <g shape-rendering="crispEdges"><rect x="97.5" y="36" width="18" height="9" fill="#7a4d0c"/><rect x="88.5" y="45" width="27" height="9" fill="#7a4d0c"/><rect x="79.5" y="54" width="36" height="9" fill="#7a4d0c"/><rect x="97.5" y="63" width="18" height="9" fill="#7a4d0c"/><rect x="97.5" y="72" width="18" height="9" fill="#7a4d0c"/><rect x="97.5" y="81" width="18" height="9" fill="#7a4d0c"/><rect x="97.5" y="90" width="18" height="9" fill="#7a4d0c"/><rect x="97.5" y="99" width="18" height="9" fill="#7a4d0c"/><rect x="97.5" y="108" width="18" height="9" fill="#7a4d0c"/><rect x="79.5" y="117" width="54" height="9" fill="#7a4d0c"/><rect x="79.5" y="126" width="54" height="9" fill="#7a4d0c"/><rect x="95.5" y="34" width="18" height="9" fill="#fff0c0"/><rect x="86.5" y="43" width="27" height="9" fill="#fff0c0"/><rect x="77.5" y="52" width="36" height="9" fill="#fff0c0"/><rect x="95.5" y="61" width="18" height="9" fill="#fff0c0"/><rect x="95.5" y="70" width="18" height="9" fill="#fff0c0"/><rect x="95.5" y="79" width="18" height="9" fill="#fff0c0"/><rect x="95.5" y="88" width="18" height="9" fill="#fff0c0"/><rect x="95.5" y="97" width="18" height="9" fill="#fff0c0"/><rect x="95.5" y="106" width="18" height="9" fill="#fff0c0"/><rect x="77.5" y="115" width="54" height="9" fill="#fff0c0"/><rect x="77.5" y="124" width="54" height="9" fill="#fff0c0"/></g>
-                  <text x="101" y="173" text-anchor="middle" class="muenze-schrift" fill="#7a4d0c">ZAHL</text>
-                  <text x="100" y="172" text-anchor="middle" class="muenze-schrift" fill="#fff0c0">ZAHL</text>
-                </svg>
+                  <!-- Rückseite: große geprägte Ziffer. Sie ist ab Werk um 180° gedreht (siehe spiel.css). -->
+                  <div class="seite hinten">
+                    <svg viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+                      <defs>
+                        <radialGradient id="gold-zahl" cx="35%" cy="30%" r="80%">
+                          <stop offset="0" stop-color="#fff0b8" />
+                          <stop offset=".55" stop-color="#ffc84d" />
+                          <stop offset="1" stop-color="#b57a10" />
+                        </radialGradient>
+                      </defs>
+                      <circle cx="100" cy="100" r="98" fill="url(#gold-zahl)" />
+                      <circle
+                        cx="100"
+                        cy="100"
+                        r="92"
+                        pathLength="180"
+                        fill="none"
+                        stroke="#8a5a0a"
+                        stroke-width="5"
+                        stroke-dasharray="1 1"
+                        opacity=".65"
+                      />
+                      <circle
+                        cx="100"
+                        cy="100"
+                        r="84"
+                        fill="#e7b23e"
+                        stroke="#8a5a0a"
+                        stroke-width="2"
+                      />
+                      <circle
+                        cx="100"
+                        cy="100"
+                        r="81"
+                        fill="none"
+                        stroke="#fff0c0"
+                        stroke-width="1.5"
+                        opacity=".6"
+                      />
+                      <g shape-rendering="crispEdges">
+                        <rect x="97.5" y="36" width="18" height="9" fill="#7a4d0c" />
+                        <rect x="88.5" y="45" width="27" height="9" fill="#7a4d0c" />
+                        <rect x="79.5" y="54" width="36" height="9" fill="#7a4d0c" />
+                        <rect x="97.5" y="63" width="18" height="9" fill="#7a4d0c" />
+                        <rect x="97.5" y="72" width="18" height="9" fill="#7a4d0c" />
+                        <rect x="97.5" y="81" width="18" height="9" fill="#7a4d0c" />
+                        <rect x="97.5" y="90" width="18" height="9" fill="#7a4d0c" />
+                        <rect x="97.5" y="99" width="18" height="9" fill="#7a4d0c" />
+                        <rect x="97.5" y="108" width="18" height="9" fill="#7a4d0c" />
+                        <rect x="79.5" y="117" width="54" height="9" fill="#7a4d0c" />
+                        <rect x="79.5" y="126" width="54" height="9" fill="#7a4d0c" />
+                        <rect x="95.5" y="34" width="18" height="9" fill="#fff0c0" />
+                        <rect x="86.5" y="43" width="27" height="9" fill="#fff0c0" />
+                        <rect x="77.5" y="52" width="36" height="9" fill="#fff0c0" />
+                        <rect x="95.5" y="61" width="18" height="9" fill="#fff0c0" />
+                        <rect x="95.5" y="70" width="18" height="9" fill="#fff0c0" />
+                        <rect x="95.5" y="79" width="18" height="9" fill="#fff0c0" />
+                        <rect x="95.5" y="88" width="18" height="9" fill="#fff0c0" />
+                        <rect x="95.5" y="97" width="18" height="9" fill="#fff0c0" />
+                        <rect x="95.5" y="106" width="18" height="9" fill="#fff0c0" />
+                        <rect x="77.5" y="115" width="54" height="9" fill="#fff0c0" />
+                        <rect x="77.5" y="124" width="54" height="9" fill="#fff0c0" />
+                      </g>
+                      <text
+                        x="101"
+                        y="173"
+                        text-anchor="middle"
+                        class="muenze-schrift"
+                        fill="#7a4d0c"
+                      >
+                        ZAHL
+                      </text>
+                      <text
+                        x="100"
+                        y="172"
+                        text-anchor="middle"
+                        class="muenze-schrift"
+                        fill="#fff0c0"
+                      >
+                        ZAHL
+                      </text>
+                    </svg>
+                  </div>
+                </div>
               </div>
-            </div>
             </div>
           </div>
         </div>
+
+        <!-- Die letzten Würfe als kleine K/Z-Marken, die Kante als "|" (game.js füllt sie) -->
+        <div class="verlauf" id="verlauf" role="img" aria-label="Letzte Würfe: noch keine"></div>
+
+        <p class="meldung" id="meldung" data-art="neutral" aria-live="polite"></p>
+        <div class="gewinn-anzeige" id="gewinn" data-nur="casino" aria-live="polite" hidden></div>
+
+        <!-- Einsatz-Chips nur im Casino-Modus -->
+        <div
+          class="chips chips-mitte"
+          id="chips"
+          data-nur="casino"
+          role="group"
+          aria-label="Einsatz wählen"
+          hidden
+        >
+          <button type="button" class="chip" data-wert="10" aria-pressed="false">10</button>
+          <button type="button" class="chip" data-wert="25" aria-pressed="false">25</button>
+          <button type="button" class="chip" data-wert="50" aria-pressed="true">50</button>
+          <button type="button" class="chip" data-wert="100" aria-pressed="false">100</button>
+        </div>
+
+        <div class="tipp-knoepfe">
+          <button
+            class="knopf primaer tipp-knopf"
+            id="tipp-kopf"
+            type="button"
+            aria-keyshortcuts="K"
+          >
+            <span class="tipp-name">KOPF</span
+            ><span class="tipp-quote" data-nur="casino" hidden></span>
+          </button>
+          <!-- Nur im Casino: dritter Tipp mit hoher Quote (Arcade kennt die Kante nur als Unentschieden) -->
+          <button
+            class="knopf primaer tipp-knopf tipp-kante"
+            id="tipp-kante"
+            type="button"
+            aria-keyshortcuts="E"
+            data-nur="casino"
+            hidden
+          >
+            <span class="tipp-name">KANTE</span><span class="tipp-quote"></span>
+          </button>
+          <button
+            class="knopf primaer tipp-knopf"
+            id="tipp-zahl"
+            type="button"
+            aria-keyshortcuts="Z"
+          >
+            <span class="tipp-name">ZAHL</span
+            ><span class="tipp-quote" data-nur="casino" hidden></span>
+          </button>
+          <button class="knopf primaer tipp-knopf" id="neue-runde" type="button" hidden>
+            Neue Runde
+          </button>
+        </div>
       </div>
 
-      <!-- Die letzten Würfe als kleine K/Z-Marken, die Kante als "|" (game.js füllt sie) -->
-      <div class="verlauf" id="verlauf" role="img" aria-label="Letzte Würfe: noch keine"></div>
+      <p class="steuerung" data-nur="arcade">
+        Steuerung: <kbd>K</kbd> für KOPF, <kbd>Z</kbd> für ZAHL. Am Handy einfach die großen Knöpfe
+        antippen. Jeder richtige Tipp verlängert die Kette, ein falscher beendet die Runde. Landet
+        die Münze auf der Kante, ist das ein Unentschieden: Die Kette bleibt.
+      </p>
+      <p class="steuerung" data-nur="casino" hidden>
+        Steuerung: <kbd>K</kbd> für KOPF, <kbd>Z</kbd> für ZAHL, <kbd>E</kbd> für KANTE. Am Handy
+        einfach die großen Knöpfe antippen. Die Quote steht auf dem Knopf, der Einsatz wird über die
+        Chips gewählt.
+      </p>
 
-      <p class="meldung" id="meldung" data-art="neutral" aria-live="polite"></p>
-      <div class="gewinn-anzeige" id="gewinn" data-nur="casino" aria-live="polite" hidden></div>
-
-      <!-- Einsatz-Chips nur im Casino-Modus -->
-      <div class="chips chips-mitte" id="chips" data-nur="casino" role="group" aria-label="Einsatz wählen" hidden>
-        <button type="button" class="chip" data-wert="10" aria-pressed="false">10</button>
-        <button type="button" class="chip" data-wert="25" aria-pressed="false">25</button>
-        <button type="button" class="chip" data-wert="50" aria-pressed="true">50</button>
-        <button type="button" class="chip" data-wert="100" aria-pressed="false">100</button>
+      <div class="hinweis hinweis-casino">
+        <strong>Hinweis:</strong> Nur Spielgeld – kein Echtgeld, keine Kaufmöglichkeit. Der
+        Arcade-Modus kommt ganz ohne Geld aus; das Casino-Konto teilen sich alle Casino-Spiele
+        dieser Seite und liegt nur in deinem Browser.
       </div>
 
-      <div class="tipp-knoepfe">
-        <button class="knopf primaer tipp-knopf" id="tipp-kopf" type="button" aria-keyshortcuts="K"><span class="tipp-name">KOPF</span><span class="tipp-quote" data-nur="casino" hidden></span></button>
-        <!-- Nur im Casino: dritter Tipp mit hoher Quote (Arcade kennt die Kante nur als Unentschieden) -->
-        <button class="knopf primaer tipp-knopf tipp-kante" id="tipp-kante" type="button" aria-keyshortcuts="E" data-nur="casino" hidden><span class="tipp-name">KANTE</span><span class="tipp-quote"></span></button>
-        <button class="knopf primaer tipp-knopf" id="tipp-zahl" type="button" aria-keyshortcuts="Z"><span class="tipp-name">ZAHL</span><span class="tipp-quote" data-nur="casino" hidden></span></button>
-        <button class="knopf primaer tipp-knopf" id="neue-runde" type="button" hidden>Neue Runde</button>
+      <section class="top-bereich">
+        <h2 id="topliste-titel">Lokale Top 3 · Längste Kette</h2>
+        <div id="topliste"></div>
+        <button class="knopf" id="reset" type="button">Spielstand zurücksetzen</button>
+        <p id="reset-hinweis" class="reset-hinweis" hidden>
+          Es zählt der höchste Netto-Gewinn eines einzelnen Wurfs. Dein Spielgeld bleibt beim
+          Zurücksetzen unverändert.
+        </p>
+      </section>
+
+      <section class="lernbox">
+        <details open>
+          <summary>Anleitung &amp; Regeln</summary>
+          <p>
+            <strong>Ziel:</strong> Tippe, welche Seite der Münze oben liegt, wenn sie landet: KOPF
+            oder ZAHL. Ganz selten bleibt sie stattdessen auf der KANTE stehen.
+          </p>
+          <ul>
+            <li>
+              <strong>Arcade (ohne Geld):</strong> Richtig getippt: Die Kette wächst um 1 und es
+              geht weiter. Falsch getippt: Die Runde ist vorbei. Die drei längsten Ketten landen in
+              der lokalen Topliste.
+            </li>
+            <li>
+              <strong>KANTE im Arcade-Modus:</strong> Das ist ein Unentschieden. Weder KOPF noch
+              ZAHL stimmt, aber du kannst nichts dafür: Die Kette bleibt unverändert und der nächste
+              Wurf ist frei.
+            </li>
+            <li>
+              <strong>Chancen:</strong> KOPF 49 %, ZAHL 49 %, KANTE 2 % (1 von 50), bei jedem Wurf
+              neu, egal was vorher kam. Eine Serie von fünfmal KOPF macht ZAHL nicht „fälliger“.
+              Eine echte Münze landet praktisch nie auf der Kante; hier ist sie bewusst auf 2 %
+              angehoben, damit man sie erleben kann.
+            </li>
+            <li>
+              <strong>Während des Wurfs</strong> sind die Knöpfe gesperrt. Mit <kbd>K</kbd> und
+              <kbd>Z</kbd> geht es auch ohne Maus (im Casino zusätzlich <kbd>E</kbd> für KANTE).
+            </li>
+          </ul>
+          <p>
+            <strong>Casino-Modus (nur Spielgeld):</strong> Oben auf „Casino“ umschalten. Beim
+            Wechsel startet das Spiel neu. Die Kette zählt hier nicht, dafür geht es um Spielgeld
+            vom gemeinsamen Casino-Konto.
+          </p>
+          <ul>
+            <li>
+              <strong>Einsatz:</strong> Wähle einen Chip (10, 25, 50 oder 100) und tippe KOPF, KANTE
+              oder ZAHL. Der Einsatz wird sofort abgebucht.
+            </li>
+            <li>
+              <strong>Quote ×1,94 (KOPF und ZAHL):</strong> Bei einem Treffer bekommst du Einsatz ×
+              1,94 zurück (auf ganze Spielgeld-Einheiten gerundet), sonst ist der Einsatz weg. Bei
+              50 gibt es also 97 zurück, das sind 47 Gewinn.
+            </li>
+            <li>
+              <strong>Quote ×47 (KANTE):</strong> Die Kante ist selten und zahlt deshalb viel mehr:
+              Bei 50 Einsatz gibt es 2.350 zurück, das sind 2.300 Gewinn.
+            </li>
+            <li>
+              <strong>Wichtiger Unterschied zum Arcade-Modus:</strong> Dort ist die Kante ein
+              Unentschieden. Im Casino verliert ein KOPF- oder ZAHL-Tipp bei Kante. Nur wer direkt
+              auf KANTE gewettet hat, gewinnt. Dafür gibt es ja den KANTE-Knopf.
+            </li>
+            <li>
+              <strong>Hausvorteil:</strong> Eine faire Wette würde genau so viel zahlen, wie die
+              Chance hergibt: ×2,04 auf KOPF oder ZAHL (1 ÷ 0,49), ×50 auf die KANTE (1 ÷ 0,02). Das
+              Casino zahlt ×1,94 bzw. ×47. Auf lange Sicht bekommst du bei KOPF/ZAHL etwa 95 %
+              deines Einsatzes zurück (Hausvorteil 4,94 %), bei KANTE 94 % (Hausvorteil 6 %).
+            </li>
+            <li>
+              <strong>Top 3:</strong> Im Casino-Modus zählt dein höchster Netto-Gewinn eines
+              einzelnen Wurfs. Gibt es einen Platz in der Topliste, wird er still eingetragen, ohne
+              Dialog. Wird das Spielgeld knapp (unter 10), bekommst du neues Startgeld.
+            </li>
+          </ul>
+        </details>
+      </section>
+
+      <section class="lernbox">
+        <details>
+          <summary>Wie funktioniert der Code?</summary>
+          <p>
+            <strong>Der Zufall.</strong> <code>muenzeWerfen()</code> holt genau EINE Zufallszahl
+            <code>z</code> aus <code>Math.random()</code> (von 0 inklusive bis 1 exklusive,
+            gleichmäßig verteilt) und teilt diesen Bereich in drei Streifen, deren Breite die
+            Wahrscheinlichkeit ist: <code>z &lt; 0.02</code> ist KANTE (2 %),
+            <code>z &lt; 0.51</code> ist KOPF (49 %), alles darüber ist ZAHL (49 %). Die Grenze 0,51
+            ist einfach 0,02 + 0,49. Die untere Grenze gehört jeweils dazu, die obere nicht: Genau
+            0,02 ist schon KOPF, genau 0,51 schon ZAHL. Das ist kein „echter“ Zufall, sondern ein
+            Pseudozufallsgenerator, der für ein Spiel mit Spielgeld völlig reicht. Für alles, was
+            Sicherheit braucht (Passwörter, Lose mit echtem Wert), nimmt man
+            <code>crypto.getRandomValues()</code>. Wichtig: Das Ergebnis steht fest,
+            <em>bevor</em> die Animation startet. Die Animation zeigt es nur an.
+          </p>
+          <p>
+            <strong>Die 3D-Münze.</strong> Die Münze ist ein Element mit zwei übereinanderliegenden
+            Flächen: Vorderseite (KOPF) und Rückseite (ZAHL). <code>perspective</code> am äußeren
+            Element erzeugt die Tiefenwirkung, <code>transform-style: preserve-3d</code> hält die
+            Kinder im Raum, und <code>backface-visibility: hidden</code> blendet die jeweils
+            abgewandte Fläche aus. Die Rückseite ist ab Werk mit
+            <code>rotateX(180deg)</code> umgedreht. Dreht sich die ganze Münze um 180° um die
+            X-Achse (waagerechte Achse), kippt sie nach vorn und zeigt ZAHL aufrecht. Bei 360° ist
+            wieder KOPF zu sehen. Mit <code>rotateY</code> statt <code>rotateX</code> würde sie wie
+            eine Tür aufschwingen und die Schrift stünde spiegelverkehrt. Die Dicke der Münze ist
+            ein Rand aus 48 schmalen Streifen, die <code>game.js</code> im Kreis anordnet: Jeder
+            Streifen wird aufgestellt (<code>rotateX(90deg)</code>), an den Münzrand geschoben
+            (<code>translateY</code>) und um seinen Winkel um die Münzmitte gedreht
+            (<code>rotateZ</code>). Seine Höhe ist die Münzdicke, seine Helligkeit hängt vom Winkel
+            ab (oben hell, unten dunkel), das gibt dem Rand Rundung.
+          </p>
+          <p>
+            <strong>Der Wurf.</strong> Gedreht wird per CSS-<code>transition</code> auf
+            <code>transform</code>. JavaScript setzt nur den Zielwinkel in die Variable
+            <code>--winkel</code>. Damit die Münze mehrfach rotiert und garantiert auf dem Ergebnis
+            landet, rechnet <code>zielWinkel()</code> immer weiter hoch: aktueller Winkel + 5 volle
+            Umdrehungen + der Rest bis zur gewünschten Seite (0° für KOPF, 180° für ZAHL). Das
+            Hochspringen ist eine eigene Keyframe-Animation auf dem äußeren Element, so überlagern
+            sich Drehung und Sprung sauber. Nach der Landung wird der Winkel unsichtbar auf 0° oder
+            180° zurückgesetzt, damit die Zahl nicht endlos wächst. Wer „Bewegung reduzieren“
+            eingestellt hat, sieht statt des Wurfs nur ein kurzes Umblenden (<code
+              >bewegungReduziert()</code
+            >
+            aus <code>ui.js</code>).
+          </p>
+          <p>
+            <strong>Die Kante.</strong> Bei KANTE fliegt die Münze wie bei KOPF (Zielwinkel 0°).
+            Zusätzlich bekommt ein weiteres Element um die Münze die Klasse <code>steht</code>. Es
+            dreht die Münze um die senkrechte Achse um 90° (<code>rotateY(90deg)</code>), so dass
+            sie mit dem Rand zu dir zeigt: eine schmale, hochkant stehende Münze. Die Drehung hat
+            eine <code>transition-delay</code> und endet genau mit der Landung. Dann wackelt die
+            ganze Szene dreimal mit abnehmendem Ausschlag (Keyframes mit <code>rotate</code> um den
+            Fußpunkt) und bleibt stehen. Beim nächsten Wurf fällt sie wieder flach. Bei „Bewegung
+            reduzieren“ steht sie sofort hochkant.
+          </p>
+          <p>
+            <strong>Wahrscheinlichkeit einer Kette (Arcade).</strong> Jeder Wurf ist unabhängig, die
+            Chancen werden also multipliziert: Eine Kette der Länge <code>n</code> hat die
+            Wahrscheinlichkeit 0,5<sup>n</sup>. Die Münze hat kein Gedächtnis: Nach vier Treffern
+            ist die Chance auf den fünften wieder genau 50 %, nur die Chance auf alle fünf zusammen
+            ist klein. Die Kante ändert daran nichts: Sie zählt im Arcade-Modus nicht, es
+            entscheiden nur Würfe mit KOPF oder ZAHL, und von diesen ist genau die Hälfte richtig
+            (0,49 ÷ 0,98 = 0,5). Die Tabelle gilt also für entscheidende Würfe; die Kante verlängert
+            die Runde nur um Würfe, die nichts ändern.
+          </p>
+          <div class="tabelle-halter">
+            <table class="tabelle" aria-label="Wahrscheinlichkeit einer Kette der Länge n">
+              <thead>
+                <tr>
+                  <th scope="col">Kette n</th>
+                  <th scope="col">Wahrscheinlichkeit</th>
+                  <th scope="col">Etwa 1 von</th>
+                </tr>
+              </thead>
+              <tbody id="ketten-tabelle"></tbody>
+            </table>
+          </div>
+          <p>
+            <strong>Die Quoten (Casino).</strong> Die faire Quote einer Wette ist 1 ÷
+            Wahrscheinlichkeit, denn dann gleichen sich Gewinn und Verlust auf lange Sicht aus. Für
+            KOPF und ZAHL (je 49 %) wäre das 1 ÷ 0,49 = 2,04. Das Casino zahlt aber nur ×1,94: Der
+            Erwartungswert ist 0,49 × 194 = 95,06 von 100 Einsatz, die fehlenden 4,94 sind der
+            Hausvorteil. Für die KANTE (2 %) wäre die faire Quote 1 ÷ 0,02 = 50. Das Casino zahlt
+            ×47: Der Erwartungswert ist 0,02 × 4700 = 94 von 100, der Hausvorteil beträgt also 6 %.
+            Die Kante zahlt damit im Verhältnis etwas schlechter als KOPF und ZAHL (6 % statt 4,94
+            %). Ein einzelner Wurf kann trotzdem gewinnen, der Vorteil zeigt sich erst über viele
+            Runden. Der Vergleich:
+          </p>
+          <div class="tabelle-halter">
+            <table class="tabelle" aria-label="Chance, faire Quote, Quote und Hausvorteil je Tipp">
+              <thead>
+                <tr>
+                  <th scope="col">Tipp</th>
+                  <th scope="col">Chance</th>
+                  <th scope="col">Faire Quote</th>
+                  <th scope="col">Quote im Spiel</th>
+                  <th scope="col">Hausvorteil</th>
+                </tr>
+              </thead>
+              <tbody id="tipp-tabelle"></tbody>
+            </table>
+          </div>
+          <p>
+            <strong>Rundung.</strong> Die Auszahlung muss eine ganze Zahl sein. Bei 25 Einsatz
+            ergibt 25 × 1,94 genau 48,5; gerundet wird bei „.5“ auf, also 49. Damit
+            Gleitkomma-Ungenauigkeiten (1,94 lässt sich im Computer nicht exakt speichern) nie ein
+            „.5“ verschieben, rechnet <code>auszahlungBerechnen()</code> mit ganzen Hundertsteln:
+            <code>Math.floor((einsatz × 194 + 50) / 100)</code>. Für die Kante nimmt dieselbe
+            Funktion 4700 statt 194; ×47 geht ohne Rest auf. Durch die Rundung weicht der
+            Hausvorteil bei KOPF/ZAHL je nach Chip ein wenig ab (bei 10 Einsatz gibt es 19 statt
+            19,4 zurück, das ist für die Bank besser):
+          </p>
+          <div class="tabelle-halter">
+            <table class="tabelle" aria-label="Auszahlung und Hausvorteil je Einsatz">
+              <thead>
+                <tr>
+                  <th scope="col">Einsatz</th>
+                  <th scope="col">KOPF/ZAHL ×1,94</th>
+                  <th scope="col">Hausvorteil</th>
+                  <th scope="col">KANTE ×47</th>
+                  <th scope="col">Hausvorteil</th>
+                </tr>
+              </thead>
+              <tbody id="quoten-tabelle"></tbody>
+            </table>
+          </div>
+          <p>
+            <strong>Zahlungsfluss.</strong> <code>einsatzAbbuchen()</code> zieht den Einsatz VOR dem
+            Wurf ab. Das Ergebnis steht sofort fest, deshalb wird die Runde auch sofort mit
+            <code>rundeAbschliessen(einsatz, auszahlung)</code> verbucht (Auszahlung ist 0 bei
+            Niederlage). Die Auszahlung liefert
+            <code>casinoAuszahlung(einsatz, tipp, ergebnis)</code>: Nur wenn Tipp und Ergebnis
+            gleich sind, gibt es Einsatz × Quote, sonst 0. Deshalb verliert ein KOPF-Tipp bei Kante
+            von selbst. Die Anzeige zieht erst nach der Landung nach, damit der Wurf nichts verrät.
+            Geld läuft ausschließlich über <code>wallet.js</code>. Der Arcade-Modus nutzt dieselbe
+            Münze und dieselbe Animation, kennt aber kein Geld.
+          </p>
+          <p>
+            <strong>Testbar durch reine Funktionen.</strong> <code>muenzeWerfen()</code>,
+            <code>wurfBewerten()</code>, <code>casinoTippTrifft()</code>,
+            <code>kettenStand()</code>, <code>auszahlungBerechnen()</code>,
+            <code>casinoAuszahlung()</code> und <code>zielWinkel()</code> kennen weder DOM noch
+            Speicher. Deshalb kann Node sie ohne Browser prüfen, auch die Grenzen bei 0,02 und 0,51
+            und die Verteilung über 100.000 Würfe. Der Zufall ist als Parameter austauschbar, so
+            lässt sich in Tests jedes Ergebnis erzwingen.
+          </p>
+        </details>
+      </section>
+    </main>
+    <footer class="fuss">
+      <div class="container fuss-in">
+        <span>Browser-Arcade · Open Source</span>
+        <nav aria-label="Rechtliches">
+          <a href="./impressum.html">Impressum</a><a href="./datenschutz.html">Datenschutz</a>
+        </nav>
       </div>
-    </div>
-
-    <p class="steuerung" data-nur="arcade">Steuerung: <kbd>K</kbd> für KOPF, <kbd>Z</kbd> für ZAHL. Am Handy einfach die großen Knöpfe antippen. Jeder richtige Tipp verlängert die Kette, ein falscher beendet die Runde. Landet die Münze auf der Kante, ist das ein Unentschieden: Die Kette bleibt.</p>
-    <p class="steuerung" data-nur="casino" hidden>Steuerung: <kbd>K</kbd> für KOPF, <kbd>Z</kbd> für ZAHL, <kbd>E</kbd> für KANTE. Am Handy einfach die großen Knöpfe antippen. Die Quote steht auf dem Knopf, der Einsatz wird über die Chips gewählt.</p>
-
-    <div class="hinweis hinweis-casino"><strong>Hinweis:</strong> Nur Spielgeld – kein Echtgeld, keine Kaufmöglichkeit. Der Arcade-Modus kommt ganz ohne Geld aus; das Casino-Konto teilen sich alle Casino-Spiele dieser Seite und liegt nur in deinem Browser.</div>
-
-    <section class="top-bereich"><h2 id="topliste-titel">Lokale Top 3 · Längste Kette</h2><div id="topliste"></div>
-      <button class="knopf" id="reset" type="button">Spielstand zurücksetzen</button>
-      <p id="reset-hinweis" class="reset-hinweis" hidden>Es zählt der höchste Netto-Gewinn eines einzelnen Wurfs. Dein Spielgeld bleibt beim Zurücksetzen unverändert.</p></section>
-
-    <section class="lernbox"><details open><summary>Anleitung &amp; Regeln</summary>
-      <p><strong>Ziel:</strong> Tippe, welche Seite der Münze oben liegt, wenn sie landet: KOPF oder ZAHL. Ganz selten bleibt sie stattdessen auf der KANTE stehen.</p>
-      <ul>
-        <li><strong>Arcade (ohne Geld):</strong> Richtig getippt: Die Kette wächst um 1 und es geht weiter. Falsch getippt: Die Runde ist vorbei. Die drei längsten Ketten landen in der lokalen Topliste.</li>
-        <li><strong>KANTE im Arcade-Modus:</strong> Das ist ein Unentschieden. Weder KOPF noch ZAHL stimmt, aber du kannst nichts dafür: Die Kette bleibt unverändert und der nächste Wurf ist frei.</li>
-        <li><strong>Chancen:</strong> KOPF 49 %, ZAHL 49 %, KANTE 2 % (1 von 50), bei jedem Wurf neu, egal was vorher kam. Eine Serie von fünfmal KOPF macht ZAHL nicht „fälliger“. Eine echte Münze landet praktisch nie auf der Kante; hier ist sie bewusst auf 2 % angehoben, damit man sie erleben kann.</li>
-        <li><strong>Während des Wurfs</strong> sind die Knöpfe gesperrt. Mit <kbd>K</kbd> und <kbd>Z</kbd> geht es auch ohne Maus (im Casino zusätzlich <kbd>E</kbd> für KANTE).</li>
-      </ul>
-      <p><strong>Casino-Modus (nur Spielgeld):</strong> Oben auf „Casino“ umschalten. Beim Wechsel startet das Spiel neu. Die Kette zählt hier nicht, dafür geht es um Spielgeld vom gemeinsamen Casino-Konto.</p>
-      <ul>
-        <li><strong>Einsatz:</strong> Wähle einen Chip (10, 25, 50 oder 100) und tippe KOPF, KANTE oder ZAHL. Der Einsatz wird sofort abgebucht.</li>
-        <li><strong>Quote ×1,94 (KOPF und ZAHL):</strong> Bei einem Treffer bekommst du Einsatz × 1,94 zurück (auf ganze Spielgeld-Einheiten gerundet), sonst ist der Einsatz weg. Bei 50 gibt es also 97 zurück, das sind 47 Gewinn.</li>
-        <li><strong>Quote ×47 (KANTE):</strong> Die Kante ist selten und zahlt deshalb viel mehr: Bei 50 Einsatz gibt es 2.350 zurück, das sind 2.300 Gewinn.</li>
-        <li><strong>Wichtiger Unterschied zum Arcade-Modus:</strong> Dort ist die Kante ein Unentschieden. Im Casino verliert ein KOPF- oder ZAHL-Tipp bei Kante. Nur wer direkt auf KANTE gewettet hat, gewinnt. Dafür gibt es ja den KANTE-Knopf.</li>
-        <li><strong>Hausvorteil:</strong> Eine faire Wette würde genau so viel zahlen, wie die Chance hergibt: ×2,04 auf KOPF oder ZAHL (1 ÷ 0,49), ×50 auf die KANTE (1 ÷ 0,02). Das Casino zahlt ×1,94 bzw. ×47. Auf lange Sicht bekommst du bei KOPF/ZAHL etwa 95 % deines Einsatzes zurück (Hausvorteil 4,94 %), bei KANTE 94 % (Hausvorteil 6 %).</li>
-        <li><strong>Top 3:</strong> Im Casino-Modus zählt dein höchster Netto-Gewinn eines einzelnen Wurfs. Gibt es einen Platz in der Topliste, wird er still eingetragen, ohne Dialog. Wird das Spielgeld knapp (unter 10), bekommst du neues Startgeld.</li>
-      </ul>
-    </details></section>
-
-    <section class="lernbox"><details><summary>Wie funktioniert der Code?</summary>
-      <p><strong>Der Zufall.</strong> <code>muenzeWerfen()</code> holt genau EINE Zufallszahl <code>z</code> aus <code>Math.random()</code> (von 0 inklusive bis 1 exklusive, gleichmäßig verteilt) und teilt diesen Bereich in drei Streifen, deren Breite die Wahrscheinlichkeit ist: <code>z &lt; 0.02</code> ist KANTE (2 %), <code>z &lt; 0.51</code> ist KOPF (49 %), alles darüber ist ZAHL (49 %). Die Grenze 0,51 ist einfach 0,02 + 0,49. Die untere Grenze gehört jeweils dazu, die obere nicht: Genau 0,02 ist schon KOPF, genau 0,51 schon ZAHL. Das ist kein „echter“ Zufall, sondern ein Pseudozufallsgenerator, der für ein Spiel mit Spielgeld völlig reicht. Für alles, was Sicherheit braucht (Passwörter, Lose mit echtem Wert), nimmt man <code>crypto.getRandomValues()</code>. Wichtig: Das Ergebnis steht fest, <em>bevor</em> die Animation startet. Die Animation zeigt es nur an.</p>
-      <p><strong>Die 3D-Münze.</strong> Die Münze ist ein Element mit zwei übereinanderliegenden Flächen: Vorderseite (KOPF) und Rückseite (ZAHL). <code>perspective</code> am äußeren Element erzeugt die Tiefenwirkung, <code>transform-style: preserve-3d</code> hält die Kinder im Raum, und <code>backface-visibility: hidden</code> blendet die jeweils abgewandte Fläche aus. Die Rückseite ist ab Werk mit <code>rotateX(180deg)</code> umgedreht. Dreht sich die ganze Münze um 180° um die X-Achse (waagerechte Achse), kippt sie nach vorn und zeigt ZAHL aufrecht. Bei 360° ist wieder KOPF zu sehen. Mit <code>rotateY</code> statt <code>rotateX</code> würde sie wie eine Tür aufschwingen und die Schrift stünde spiegelverkehrt. Die Dicke der Münze ist ein Rand aus 48 schmalen Streifen, die <code>game.js</code> im Kreis anordnet: Jeder Streifen wird aufgestellt (<code>rotateX(90deg)</code>), an den Münzrand geschoben (<code>translateY</code>) und um seinen Winkel um die Münzmitte gedreht (<code>rotateZ</code>). Seine Höhe ist die Münzdicke, seine Helligkeit hängt vom Winkel ab (oben hell, unten dunkel), das gibt dem Rand Rundung.</p>
-      <p><strong>Der Wurf.</strong> Gedreht wird per CSS-<code>transition</code> auf <code>transform</code>. JavaScript setzt nur den Zielwinkel in die Variable <code>--winkel</code>. Damit die Münze mehrfach rotiert und garantiert auf dem Ergebnis landet, rechnet <code>zielWinkel()</code> immer weiter hoch: aktueller Winkel + 5 volle Umdrehungen + der Rest bis zur gewünschten Seite (0° für KOPF, 180° für ZAHL). Das Hochspringen ist eine eigene Keyframe-Animation auf dem äußeren Element, so überlagern sich Drehung und Sprung sauber. Nach der Landung wird der Winkel unsichtbar auf 0° oder 180° zurückgesetzt, damit die Zahl nicht endlos wächst. Wer „Bewegung reduzieren“ eingestellt hat, sieht statt des Wurfs nur ein kurzes Umblenden (<code>bewegungReduziert()</code> aus <code>ui.js</code>).</p>
-      <p><strong>Die Kante.</strong> Bei KANTE fliegt die Münze wie bei KOPF (Zielwinkel 0°). Zusätzlich bekommt ein weiteres Element um die Münze die Klasse <code>steht</code>. Es dreht die Münze um die senkrechte Achse um 90° (<code>rotateY(90deg)</code>), so dass sie mit dem Rand zu dir zeigt: eine schmale, hochkant stehende Münze. Die Drehung hat eine <code>transition-delay</code> und endet genau mit der Landung. Dann wackelt die ganze Szene dreimal mit abnehmendem Ausschlag (Keyframes mit <code>rotate</code> um den Fußpunkt) und bleibt stehen. Beim nächsten Wurf fällt sie wieder flach. Bei „Bewegung reduzieren“ steht sie sofort hochkant.</p>
-      <p><strong>Wahrscheinlichkeit einer Kette (Arcade).</strong> Jeder Wurf ist unabhängig, die Chancen werden also multipliziert: Eine Kette der Länge <code>n</code> hat die Wahrscheinlichkeit 0,5<sup>n</sup>. Die Münze hat kein Gedächtnis: Nach vier Treffern ist die Chance auf den fünften wieder genau 50 %, nur die Chance auf alle fünf zusammen ist klein. Die Kante ändert daran nichts: Sie zählt im Arcade-Modus nicht, es entscheiden nur Würfe mit KOPF oder ZAHL, und von diesen ist genau die Hälfte richtig (0,49 ÷ 0,98 = 0,5). Die Tabelle gilt also für entscheidende Würfe; die Kante verlängert die Runde nur um Würfe, die nichts ändern.</p>
-      <div class="tabelle-halter"><table class="tabelle" aria-label="Wahrscheinlichkeit einer Kette der Länge n">
-        <thead><tr><th scope="col">Kette n</th><th scope="col">Wahrscheinlichkeit</th><th scope="col">Etwa 1 von</th></tr></thead>
-        <tbody id="ketten-tabelle"></tbody>
-      </table></div>
-      <p><strong>Die Quoten (Casino).</strong> Die faire Quote einer Wette ist 1 ÷ Wahrscheinlichkeit, denn dann gleichen sich Gewinn und Verlust auf lange Sicht aus. Für KOPF und ZAHL (je 49 %) wäre das 1 ÷ 0,49 = 2,04. Das Casino zahlt aber nur ×1,94: Der Erwartungswert ist 0,49 × 194 = 95,06 von 100 Einsatz, die fehlenden 4,94 sind der Hausvorteil. Für die KANTE (2 %) wäre die faire Quote 1 ÷ 0,02 = 50. Das Casino zahlt ×47: Der Erwartungswert ist 0,02 × 4700 = 94 von 100, der Hausvorteil beträgt also 6 %. Die Kante zahlt damit im Verhältnis etwas schlechter als KOPF und ZAHL (6 % statt 4,94 %). Ein einzelner Wurf kann trotzdem gewinnen, der Vorteil zeigt sich erst über viele Runden. Der Vergleich:</p>
-      <div class="tabelle-halter"><table class="tabelle" aria-label="Chance, faire Quote, Quote und Hausvorteil je Tipp">
-        <thead><tr><th scope="col">Tipp</th><th scope="col">Chance</th><th scope="col">Faire Quote</th><th scope="col">Quote im Spiel</th><th scope="col">Hausvorteil</th></tr></thead>
-        <tbody id="tipp-tabelle"></tbody>
-      </table></div>
-      <p><strong>Rundung.</strong> Die Auszahlung muss eine ganze Zahl sein. Bei 25 Einsatz ergibt 25 × 1,94 genau 48,5; gerundet wird bei „.5“ auf, also 49. Damit Gleitkomma-Ungenauigkeiten (1,94 lässt sich im Computer nicht exakt speichern) nie ein „.5“ verschieben, rechnet <code>auszahlungBerechnen()</code> mit ganzen Hundertsteln: <code>Math.floor((einsatz × 194 + 50) / 100)</code>. Für die Kante nimmt dieselbe Funktion 4700 statt 194; ×47 geht ohne Rest auf. Durch die Rundung weicht der Hausvorteil bei KOPF/ZAHL je nach Chip ein wenig ab (bei 10 Einsatz gibt es 19 statt 19,4 zurück, das ist für die Bank besser):</p>
-      <div class="tabelle-halter"><table class="tabelle" aria-label="Auszahlung und Hausvorteil je Einsatz">
-        <thead><tr><th scope="col">Einsatz</th><th scope="col">KOPF/ZAHL ×1,94</th><th scope="col">Hausvorteil</th><th scope="col">KANTE ×47</th><th scope="col">Hausvorteil</th></tr></thead>
-        <tbody id="quoten-tabelle"></tbody>
-      </table></div>
-      <p><strong>Zahlungsfluss.</strong> <code>einsatzAbbuchen()</code> zieht den Einsatz VOR dem Wurf ab. Das Ergebnis steht sofort fest, deshalb wird die Runde auch sofort mit <code>rundeAbschliessen(einsatz, auszahlung)</code> verbucht (Auszahlung ist 0 bei Niederlage). Die Auszahlung liefert <code>casinoAuszahlung(einsatz, tipp, ergebnis)</code>: Nur wenn Tipp und Ergebnis gleich sind, gibt es Einsatz × Quote, sonst 0. Deshalb verliert ein KOPF-Tipp bei Kante von selbst. Die Anzeige zieht erst nach der Landung nach, damit der Wurf nichts verrät. Geld läuft ausschließlich über <code>wallet.js</code>. Der Arcade-Modus nutzt dieselbe Münze und dieselbe Animation, kennt aber kein Geld.</p>
-      <p><strong>Testbar durch reine Funktionen.</strong> <code>muenzeWerfen()</code>, <code>wurfBewerten()</code>, <code>casinoTippTrifft()</code>, <code>kettenStand()</code>, <code>auszahlungBerechnen()</code>, <code>casinoAuszahlung()</code> und <code>zielWinkel()</code> kennen weder DOM noch Speicher. Deshalb kann Node sie ohne Browser prüfen, auch die Grenzen bei 0,02 und 0,51 und die Verteilung über 100.000 Würfe. Der Zufall ist als Parameter austauschbar, so lässt sich in Tests jedes Ergebnis erzwingen.</p>
-    </details></section>
-  </main>
-  <footer class="fuss"><div class="container fuss-in"><span>Browser-Arcade · Open Source</span><nav aria-label="Rechtliches"><a href="./impressum.html">Impressum</a><a href="./datenschutz.html">Datenschutz</a></nav></div></footer>
-  <script type="module" src="./game.js"></script>
-</body>
+    </footer>
+    <script type="module" src="./game.js"></script>
+  </body>
 </html>

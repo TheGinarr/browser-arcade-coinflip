@@ -49,26 +49,38 @@
       gepflegt (ohne Dialog).
    ============================================================ */
 
-import { bewegungReduziert, zahlHochzaehlen, toplisteAnzeigen, gameOverDialog, stillEintragen } from "./assets/ui.js";
+import {
+  bewegungReduziert,
+  zahlHochzaehlen,
+  toplisteAnzeigen,
+  gameOverDialog,
+  stillEintragen,
+} from "./assets/ui.js";
 import { spielZuruecksetzen, topliste, lade, speichere } from "./assets/storage.js";
 import {
-  STARTGELD, kontostand, einsatzAbbuchen, rundeAbschliessen,
-  istPleite, pleiteNeustart, walletHud, walletHudAktualisieren,
+  STARTGELD,
+  kontostand,
+  einsatzAbbuchen,
+  rundeAbschliessen,
+  istPleite,
+  pleiteNeustart,
+  walletHud,
+  walletHudAktualisieren,
 } from "./assets/wallet.js";
 
-const SPIEL = "coinflip";                     // Schlüssel für storage.js (Arcade-Topliste + gewählter Modus)
-const SPIEL_CASINO = "coinflip-casino";       // eigener Schlüssel: Casino-Topliste (höchster Netto-Gewinn) + Chip
-const CHIPS = [10, 25, 50, 100];              // erlaubte Einsätze im Casino-Modus
-const MINDESTEINSATZ = CHIPS[0];              // darunter ist man pleite
+const SPIEL = "coinflip"; // Schlüssel für storage.js (Arcade-Topliste + gewählter Modus)
+const SPIEL_CASINO = "coinflip-casino"; // eigener Schlüssel: Casino-Topliste (höchster Netto-Gewinn) + Chip
+const CHIPS = [10, 25, 50, 100]; // erlaubte Einsätze im Casino-Modus
+const MINDESTEINSATZ = CHIPS[0]; // darunter ist man pleite
 const MODI = ["arcade", "casino"];
-const UMDREHUNGEN = 5;                        // so oft dreht sich die Münze im Flug komplett
-const WURF_MS = 1600;                         // Dauer des Wurfs; geht als CSS-Variable --wurf-ms an spiel.css
-const UMBLEND_MS = 300;                       // reduzierte Bewegung: kurzes Umblenden statt Wurf
-const NACH_WURF_MS = 600;                     // so lange bleibt das Ergebnis stehen, bevor es weitergeht
-const VERLAUF_LAENGE = 12;                    // so viele letzte Würfe zeigt die Marken-Reihe
-const AUFSTELL_MS = 700;                      // KANTE: so lange dauert das Aufrichten (endet genau mit der Landung)
-const WACKEL_MS = 1000;                       // KANTE: so lange wackelt die stehende Münze aus ("Oho!"-Moment)
-const RAND_SEGMENTE = 48;                     // Der Münzrand besteht aus so vielen schmalen Streifen (rund genug, noch billig)
+const UMDREHUNGEN = 5; // so oft dreht sich die Münze im Flug komplett
+const WURF_MS = 1600; // Dauer des Wurfs; geht als CSS-Variable --wurf-ms an spiel.css
+const UMBLEND_MS = 300; // reduzierte Bewegung: kurzes Umblenden statt Wurf
+const NACH_WURF_MS = 600; // so lange bleibt das Ergebnis stehen, bevor es weitergeht
+const VERLAUF_LAENGE = 12; // so viele letzte Würfe zeigt die Marken-Reihe
+const AUFSTELL_MS = 700; // KANTE: so lange dauert das Aufrichten (endet genau mit der Landung)
+const WACKEL_MS = 1000; // KANTE: so lange wackelt die stehende Münze aus ("Oho!"-Moment)
+const RAND_SEGMENTE = 48; // Der Münzrand besteht aus so vielen schmalen Streifen (rund genug, noch billig)
 
 /* ------------------------------------------------------------
    WAHRSCHEINLICHKEITEN
@@ -89,8 +101,8 @@ const RAND_SEGMENTE = 48;                     // Der Münzrand besteht aus so vi
    "realistisch", sondern ein Spiel mit drei Ausgängen.
    ------------------------------------------------------------ */
 export const WAHRSCHEINLICHKEIT = { kante: 0.02, kopf: 0.49, zahl: 0.49 };
-export const GRENZE_KANTE = 0.02;             // z < 0,02 -> KANTE
-export const GRENZE_KOPF = 0.51;              // z < 0,51 -> KOPF (= 0,02 + 0,49), sonst ZAHL
+export const GRENZE_KANTE = 0.02; // z < 0,02 -> KANTE
+export const GRENZE_KOPF = 0.51; // z < 0,51 -> KOPF (= 0,02 + 0,49), sonst ZAHL
 
 /* ------------------------------------------------------------
    QUOTEN (nur Casino) als GANZE Zahlen in Hundertsteln (Begründung bei
@@ -250,7 +262,10 @@ export function hausvorteilProzent(tipp) {
 
 /** Quote hübsch für die Anzeige: "1,94" bzw. "47" (deutsches Komma, überflüssige Nullen weg). */
 export function quoteText(tipp = "kopf") {
-  return (quoteHundertstel(tipp) / 100).toLocaleString("de-DE", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  return (quoteHundertstel(tipp) / 100).toLocaleString("de-DE", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  });
 }
 
 /**
@@ -262,9 +277,15 @@ export function casinoMeldung(tipp, ergebnis, auszahlung) {
   const geld = auszahlung.toLocaleString("de-DE");
   if (casinoTippTrifft(tipp, ergebnis)) {
     if (ergebnis === "kante") {
-      return { text: `KANTE! Volltreffer! Auszahlung: ${geld} (×${quoteText("kante")}).`, art: "richtig" };
+      return {
+        text: `KANTE! Volltreffer! Auszahlung: ${geld} (×${quoteText("kante")}).`,
+        art: "richtig",
+      };
     }
-    return { text: `Treffer! Es war ${seitenName(ergebnis)}. Auszahlung: ${geld} (×${quoteText(tipp)}).`, art: "richtig" };
+    return {
+      text: `Treffer! Es war ${seitenName(ergebnis)}. Auszahlung: ${geld} (×${quoteText(tipp)}).`,
+      art: "richtig",
+    };
   }
   if (ergebnis === "kante") {
     return { text: "KANTE! Nur ein Kanten-Tipp hätte gewonnen.", art: "falsch" };
@@ -300,7 +321,7 @@ export function randWerte(anzahl) {
   const werte = [];
   for (let i = 0; i < anzahl; i++) {
     const winkel = (360 / anzahl) * i;
-    const helligkeit = 46 + 16 * Math.cos((winkel * Math.PI) / 180);   // 62 % oben, 30 % unten
+    const helligkeit = 46 + 16 * Math.cos((winkel * Math.PI) / 180); // 62 % oben, 30 % unten
     werte.push({ winkel, helligkeit: Math.round(helligkeit * 10) / 10 });
   }
   return werte;
@@ -355,8 +376,8 @@ function starteSpiel() {
   const hubElement = document.getElementById("muenze-hub");
   const schattenElement = document.getElementById("muenze-schatten");
   const muenzeElement = document.getElementById("muenze");
-  const standElement = document.getElementById("muenze-stand");     // dreht die Münze für KANTE hochkant (Y-Achse)
-  const szeneElement = document.getElementById("muenze-szene");     // wackelt bei KANTE aus
+  const standElement = document.getElementById("muenze-stand"); // dreht die Münze für KANTE hochkant (Y-Achse)
+  const szeneElement = document.getElementById("muenze-szene"); // wackelt bei KANTE aus
   const randElement = document.getElementById("muenze-rand");
   const verlaufElement = document.getElementById("verlauf");
   const meldungElement = document.getElementById("meldung");
@@ -372,7 +393,7 @@ function starteSpiel() {
   const chipKnoepfe = [...document.querySelectorAll("#chips .chip")];
   const tippKnoepfe = {
     kopf: document.getElementById("tipp-kopf"),
-    kante: document.getElementById("tipp-kante"),     // nur im Casino sichtbar
+    kante: document.getElementById("tipp-kante"), // nur im Casino sichtbar
     zahl: document.getElementById("tipp-zahl"),
   };
   // Arcade kennt nur KOPF und ZAHL; die Kante-Taste bleibt dort versteckt
@@ -381,19 +402,19 @@ function starteSpiel() {
   // Die Zeiten stehen nur HIER im Code; das CSS liest sie aus den Variablen.
   feldElement.style.setProperty("--wurf-ms", `${WURF_MS}ms`);
   feldElement.style.setProperty("--aufstell-ms", `${AUFSTELL_MS}ms`);
-  feldElement.style.setProperty("--aufstell-pause", `${WURF_MS - AUFSTELL_MS}ms`);   // Aufrichten endet mit der Landung
+  feldElement.style.setProperty("--aufstell-pause", `${WURF_MS - AUFSTELL_MS}ms`); // Aufrichten endet mit der Landung
   feldElement.style.setProperty("--wackel-ms", `${WACKEL_MS}ms`);
   randBauen(randElement);
 
   // ----- Spielzustand -----
-  let phase = "wartet";                                // "wartet" | "wurf" | "vorbei"
-  let kette = 0;                                       // Arcade: aktuelle Serie richtiger Tipps
-  let winkel = 0;                                      // aktuelle Drehung der Münze in Grad (0 = KOPF, 180 = ZAHL)
-  let steht = false;                                   // true, solange die Münze nach einer KANTE hochkant steht
-  let letzteWuerfe = [];                               // Ergebnisse für die Marken-Reihe
-  let modus = modusAusUrl() ?? gespeicherterModus();   // "arcade" | "casino"
-  let einsatz = ladeEinsatz();                         // Casino: gewählter Chip
-  let walletHudGebaut = false;                         // das Wallet-HUD wird erst im Casino-Modus aufgebaut
+  let phase = "wartet"; // "wartet" | "wurf" | "vorbei"
+  let kette = 0; // Arcade: aktuelle Serie richtiger Tipps
+  let winkel = 0; // aktuelle Drehung der Münze in Grad (0 = KOPF, 180 = ZAHL)
+  let steht = false; // true, solange die Münze nach einer KANTE hochkant steht
+  let letzteWuerfe = []; // Ergebnisse für die Marken-Reihe
+  let modus = modusAusUrl() ?? gespeicherterModus(); // "arcade" | "casino"
+  let einsatz = ladeEinsatz(); // Casino: gewählter Chip
+  let walletHudGebaut = false; // das Wallet-HUD wird erst im Casino-Modus aufgebaut
 
   // ---------------------------------------------------------
   // Anzeigen
@@ -435,9 +456,7 @@ function starteSpiel() {
       marke.textContent = seitenKuerzel(seite);
       verlaufElement.append(marke);
     }
-    const text = letzteWuerfe.length === 0
-      ? "noch keine"
-      : letzteWuerfe.map(seitenName).join(", ");
+    const text = letzteWuerfe.length === 0 ? "noch keine" : letzteWuerfe.map(seitenName).join(", ");
     verlaufElement.setAttribute("aria-label", `Letzte Würfe: ${text}`);
   }
 
@@ -530,8 +549,10 @@ function starteSpiel() {
         szeneElement.classList.remove("wackelt");
       }
     }
-    muenzeElement.setAttribute("aria-label",
-      kante ? "Münze: steht auf der KANTE" : `Münze: zeigt ${seitenName(ergebnis)}`);
+    muenzeElement.setAttribute(
+      "aria-label",
+      kante ? "Münze: steht auf der KANTE" : `Münze: zeigt ${seitenName(ergebnis)}`,
+    );
   }
 
   function knoepfeEinstellen() {
@@ -556,8 +577,12 @@ function starteSpiel() {
    * geben wir ihn zurück, damit man nicht neu durch die Seite tabben muss.
    */
   function fokusZurueckgeben(knopf) {
-    if (knopf && !knopf.disabled && !knopf.hidden &&
-        (document.activeElement === document.body || document.activeElement === null)) {
+    if (
+      knopf &&
+      !knopf.disabled &&
+      !knopf.hidden &&
+      (document.activeElement === document.body || document.activeElement === null)
+    ) {
       knopf.focus();
     }
   }
@@ -570,7 +595,7 @@ function starteSpiel() {
     kette = 0;
     phase = "wartet";
     zahlHochzaehlen(ketteElement, 0);
-    for (const knopf of Object.values(tippKnoepfe)) knopf.removeAttribute("aria-label");   // Casino-Beschriftung (mit Quote) ablegen
+    for (const knopf of Object.values(tippKnoepfe)) knopf.removeAttribute("aria-label"); // Casino-Beschriftung (mit Quote) ablegen
     verlaufLeeren();
     meldungSetzen("Kopf oder Zahl? Tippe, wie die Münze fällt.");
     seiteAktualisieren();
@@ -584,17 +609,17 @@ function starteSpiel() {
    */
   async function tippen(tipp) {
     if (modus === "casino") return casinoTippen(tipp);
-    if (phase !== "wartet") return;              // mitten im Wurf: Eingabe ignorieren
-    if (tipp === "kante") return;                // Kanten-Tipps gibt es nur im Casino
+    if (phase !== "wartet") return; // mitten im Wurf: Eingabe ignorieren
+    if (tipp === "kante") return; // Kanten-Tipps gibt es nur im Casino
     const fokusKnopf = document.activeElement === tippKnoepfe[tipp] ? tippKnoepfe[tipp] : null;
     phase = "wurf";
     knoepfeEinstellen();
 
-    const ergebnis = muenzeWerfen();             // Ergebnis steht fest, bevor die Animation startet
+    const ergebnis = muenzeWerfen(); // Ergebnis steht fest, bevor die Animation startet
     await wurfAnzeigen(ergebnis);
     verlaufEintragen(ergebnis);
 
-    const bewertung = wurfBewerten(tipp, ergebnis);   // "richtig" | "unentschieden" (Kante) | "falsch"
+    const bewertung = wurfBewerten(tipp, ergebnis); // "richtig" | "unentschieden" (Kante) | "falsch"
     const stand = kettenStand(kette, bewertung);
     kette = stand.kette;
     zahlHochzaehlen(ketteElement, kette, 250);
@@ -611,7 +636,7 @@ function starteSpiel() {
         punkte: kette,
         punkteText: `Kette: ${kette}`,
         richtung: "hoch",
-        format: (p) => `Kette: ${p}`,   // Topliste im Dialog hübsch anzeigen
+        format: (p) => `Kette: ${p}`, // Topliste im Dialog hübsch anzeigen
         neustart: neuesSpiel,
       });
       // Topliste + Rekord neu zeigen, sobald der Dialog zu ist (evtl. gab es einen Eintrag)
@@ -655,7 +680,7 @@ function starteSpiel() {
     verlaufLeeren();
     gewinnSetzen(null);
     for (const [seite, knopf] of Object.entries(tippKnoepfe)) {
-      knopf.querySelector(".tipp-quote").textContent = `×${quoteText(seite)}`;   // x1,94 bzw. x47
+      knopf.querySelector(".tipp-quote").textContent = `×${quoteText(seite)}`; // x1,94 bzw. x47
       knopf.setAttribute("aria-label", `${seitenName(seite)}, Quote ${quoteText(seite)}`);
     }
     meldungSetzen("Wähle einen Einsatz und tippe: KOPF, ZAHL oder die seltene KANTE?");
@@ -689,7 +714,7 @@ function starteSpiel() {
       gewinnElement.classList.add("plus");
       if (!bewegungReduziert()) gewinnElement.classList.add("blitz");
     } else {
-      gewinnElement.textContent = `−${(-netto).toLocaleString("de-DE")}`;   // echtes Minuszeichen (U+2212)
+      gewinnElement.textContent = `−${(-netto).toLocaleString("de-DE")}`; // echtes Minuszeichen (U+2212)
       gewinnElement.classList.add("minus");
     }
   }
@@ -729,7 +754,7 @@ function starteSpiel() {
     }
     const fokusKnopf = document.activeElement === tippKnoepfe[tipp] ? tippKnoepfe[tipp] : null;
     phase = "wurf";
-    walletHudAktualisieren();                    // der Einsatz verlässt sichtbar das Konto
+    walletHudAktualisieren(); // der Einsatz verlässt sichtbar das Konto
     gewinnSetzen(null);
     knoepfeEinstellen();
 
@@ -808,8 +833,10 @@ function starteSpiel() {
       knopf.setAttribute("aria-pressed", String(knopf.dataset.modus === modus));
     }
     const casino = modus === "casino";
-    document.querySelector(".tipp-knoepfe").classList.toggle("drei", casino);   // drei Tipp-Knöpfe nur im Casino
-    toplisteTitel.textContent = casino ? "Lokale Top 3 · Größte Gewinne" : "Lokale Top 3 · Längste Kette";
+    document.querySelector(".tipp-knoepfe").classList.toggle("drei", casino); // drei Tipp-Knöpfe nur im Casino
+    toplisteTitel.textContent = casino
+      ? "Lokale Top 3 · Größte Gewinne"
+      : "Lokale Top 3 · Längste Kette";
     resetKnopf.textContent = casino ? "Topliste zurücksetzen" : "Spielstand zurücksetzen";
     resetHinweis.hidden = !casino;
   }
@@ -843,26 +870,26 @@ function starteSpiel() {
   }
 
   document.addEventListener("keydown", (e) => {
-    if (e.ctrlKey || e.metaKey || e.altKey) return;            // Browser-Kürzel nicht stören
-    if (e.repeat) return;                                      // gehaltene Taste wirft nicht dauernd
-    if (document.querySelector("dialog[open]")) return;        // Dialog offen → Tasten gehören ihm
+    if (e.ctrlKey || e.metaKey || e.altKey) return; // Browser-Kürzel nicht stören
+    if (e.repeat) return; // gehaltene Taste wirft nicht dauernd
+    if (document.querySelector("dialog[open]")) return; // Dialog offen → Tasten gehören ihm
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
 
     const taste = e.key?.toLowerCase();
     if (taste === "k") tippen("kopf");
     else if (taste === "z") tippen("zahl");
-    else if (taste === "e" && modus === "casino") tippen("kante");   // E wie "Edge": nur im Casino
+    else if (taste === "e" && modus === "casino") tippen("kante"); // E wie "Edge": nur im Casino
   });
 
   resetKnopf.addEventListener("click", () => {
     if (modus === "casino") {
-      spielZuruecksetzen(SPIEL_CASINO);  // löscht Casino-Topliste + gespeicherten Chip (NICHT das Spielgeld)
+      spielZuruecksetzen(SPIEL_CASINO); // löscht Casino-Topliste + gespeicherten Chip (NICHT das Spielgeld)
       speichere(SPIEL_CASINO, "einsatz", einsatz);
     } else {
-      spielZuruecksetzen(SPIEL);         // löscht die Arcade-Topliste (und den gemerkten Modus)
+      spielZuruecksetzen(SPIEL); // löscht die Arcade-Topliste (und den gemerkten Modus)
       speichere(SPIEL, "modus", modus);
     }
-    seiteAktualisieren();                // leere Topliste zeigen; die laufende Runde geht weiter
+    seiteAktualisieren(); // leere Topliste zeigen; die laufende Runde geht weiter
   });
 
   tabellenFuellen();
@@ -899,23 +926,27 @@ function tabellenFuellen() {
   const kettenKoerper = document.getElementById("ketten-tabelle");
   for (let n = 1; n <= 10; n++) {
     const p = kettenWahrscheinlichkeit(n);
-    kettenKoerper.append(zeileBauen([
-      String(n),
-      `${(p * 100).toLocaleString("de-DE", prozentFormat)} %`,
-      Math.round(1 / p).toLocaleString("de-DE"),
-    ]));
+    kettenKoerper.append(
+      zeileBauen([
+        String(n),
+        `${(p * 100).toLocaleString("de-DE", prozentFormat)} %`,
+        Math.round(1 / p).toLocaleString("de-DE"),
+      ]),
+    );
   }
 
   // Chance, faire Quote, gebotene Quote und Hausvorteil je Tipp
   const tippKoerper = document.getElementById("tipp-tabelle");
   for (const tipp of ["kopf", "zahl", "kante"]) {
-    tippKoerper.append(zeileBauen([
-      seitenName(tipp),
-      `${(WAHRSCHEINLICHKEIT[tipp] * 100).toLocaleString("de-DE", prozentFormat)} %`,
-      `×${faireQuote(tipp).toLocaleString("de-DE", prozentFormat)}`,
-      `×${quoteText(tipp)}`,
-      `${hausvorteilProzent(tipp).toLocaleString("de-DE", prozentFormat)} %`,
-    ]));
+    tippKoerper.append(
+      zeileBauen([
+        seitenName(tipp),
+        `${(WAHRSCHEINLICHKEIT[tipp] * 100).toLocaleString("de-DE", prozentFormat)} %`,
+        `×${faireQuote(tipp).toLocaleString("de-DE", prozentFormat)}`,
+        `×${quoteText(tipp)}`,
+        `${hausvorteilProzent(tipp).toLocaleString("de-DE", prozentFormat)} %`,
+      ]),
+    );
   }
 
   // Auszahlung und Hausvorteil je Chip: KOPF/ZAHL (x1,94) und KANTE (x47) nebeneinander.
@@ -923,13 +954,15 @@ function tabellenFuellen() {
   const quotenKoerper = document.getElementById("quoten-tabelle");
   for (const einsatz of CHIPS) {
     const vorteil = (tipp) => (1 - erwarteteRueckzahlung(einsatz, tipp) / einsatz) * 100;
-    quotenKoerper.append(zeileBauen([
-      String(einsatz),
-      auszahlungBerechnen(einsatz, "kopf").toLocaleString("de-DE"),
-      `${vorteil("kopf").toLocaleString("de-DE", prozentFormat)} %`,
-      auszahlungBerechnen(einsatz, "kante").toLocaleString("de-DE"),
-      `${vorteil("kante").toLocaleString("de-DE", prozentFormat)} %`,
-    ]));
+    quotenKoerper.append(
+      zeileBauen([
+        String(einsatz),
+        auszahlungBerechnen(einsatz, "kopf").toLocaleString("de-DE"),
+        `${vorteil("kopf").toLocaleString("de-DE", prozentFormat)} %`,
+        auszahlungBerechnen(einsatz, "kante").toLocaleString("de-DE"),
+        `${vorteil("kante").toLocaleString("de-DE", prozentFormat)} %`,
+      ]),
+    );
   }
 }
 
@@ -960,7 +993,9 @@ function urlAktualisieren(modus) {
     if (modus === "casino") url.searchParams.set("modus", "casino");
     else url.searchParams.delete("modus");
     window.history.replaceState(null, "", url);
-  } catch { /* bewusst ignoriert */ }
+  } catch {
+    /* bewusst ignoriert */
+  }
 }
 
 // Nur im Browser starten. In Node (Tests) gibt es kein "document" –
