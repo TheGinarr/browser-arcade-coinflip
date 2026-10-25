@@ -37,7 +37,7 @@
   display: block;
   margin-top: 2px;
   font-weight: 400;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   color: var(--mut);
 }
 .modus-leiste .knopf[aria-pressed="true"] {
@@ -440,3 +440,28 @@
 
 /* Reduzierte Bewegung: die globale Regel in style.css kürzt Dauer und Übergänge
    schon; game.js wirft dann gar nicht erst, sondern blendet nur um. */
+
+/* hell-gen: automatisch erzeugt */
+@media (prefers-color-scheme: light) {
+  :where(:root:not([data-thema="dunkel"])) .muenze-hub {
+    filter: drop-shadow(0 8px 14px #1a1d401a);
+  }
+  :where(:root:not([data-thema="dunkel"])) .muenze-hub.kante-steht {
+    filter: drop-shadow(0 8px 14px #1a1d401a)
+      drop-shadow(0 0 14px color-mix(in srgb, var(--cyan) 60%, transparent));
+  }
+  :where(:root:not([data-thema="dunkel"])) .muenze-schatten {
+    background: radial-gradient(ellipse at center, #1a1d4029 0%, transparent 70%);
+  }
+}
+
+:where(:root[data-thema="hell"]) .muenze-hub {
+  filter: drop-shadow(0 8px 14px #1a1d401a);
+}
+:where(:root[data-thema="hell"]) .muenze-hub.kante-steht {
+  filter: drop-shadow(0 8px 14px #1a1d401a)
+    drop-shadow(0 0 14px color-mix(in srgb, var(--cyan) 60%, transparent));
+}
+:where(:root[data-thema="hell"]) .muenze-schatten {
+  background: radial-gradient(ellipse at center, #1a1d4029 0%, transparent 70%);
+}

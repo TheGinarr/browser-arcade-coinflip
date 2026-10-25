@@ -834,9 +834,7 @@ function starteSpiel() {
     }
     const casino = modus === "casino";
     document.querySelector(".tipp-knoepfe").classList.toggle("drei", casino); // drei Tipp-Knöpfe nur im Casino
-    toplisteTitel.textContent = casino
-      ? "Lokale Top 3 · Größte Gewinne"
-      : "Lokale Top 3 · Längste Kette";
+    toplisteTitel.textContent = casino ? "Topliste · Größte Gewinne" : "Topliste · Längste Kette";
     resetKnopf.textContent = casino ? "Topliste zurücksetzen" : "Spielstand zurücksetzen";
     resetHinweis.hidden = !casino;
   }

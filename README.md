@@ -1,11 +1,10 @@
 # Coinflip
 
-Coinflip: Kopf oder Zahl? Und manchmal landet die Münze auf der Kante. Arcade: baue die längste Kette richtiger Tipps. Casino: tippe mit Spielgeld auf Kopf, Zahl oder Kante. Mit 3D-Münzwurf, ohne Konto und Cookies.
+Coinflip: Kopf oder Zahl? Und manchmal landet die Münze auf der Kante. Arcade: baue die längste Kette richtiger Tipps. Casino: tippe mit Spielgeld auf Kopf, Zahl oder Kante. Mit 3D-Münzwurf, ohne Konto und ohne eigene Cookies.
 
-Teil der Sammlung „Browser-Arcade“, hier als
-eigenständiges Spiel: nur HTML, CSS und Vanilla-JavaScript, keine Abhängigkeiten,
-kein Build-Schritt, keine Cookies, kein Tracking. Spielstände und Highscores liegen
-nur im localStorage des Browsers.
+Teil der Sammlung Browser-Arcade, hier als eigenständiges Spiel: nur HTML, CSS und
+Vanilla-JavaScript, keine Abhängigkeiten, kein Build-Schritt, keine Cookies, kein Tracking.
+Spielstände und Highscores liegen im localStorage des Browsers.
 
 ## Starten
 
@@ -21,9 +20,17 @@ Oder den Ordner auf einen statischen Hoster laden (GitHub Pages, Netlify, eigene
 ## Aufbau
 
 - `index.html` – Spielseite mit Anleitung und Lernbox „Wie funktioniert der Code?“
-- `game.js` – Spiellogik und Zeichnen, ausführlich auf Deutsch kommentiert
+- `game.js` – Spiellogik, ausführlich auf Deutsch kommentiert
 - `assets/` – gemeinsame Bausteine (Design, Speicher, Dialoge) und lokale Schriften
 - `impressum.html`, `datenschutz.html` – **Vorlagen** mit Platzhaltern in eckigen Klammern, vor dem Veröffentlichen ausfüllen (keine Rechtsberatung)
+
+## Online-Funktionen (optional)
+
+- **Online-Topliste** (`assets/bestenliste.js`): sendet den eigenen Bestwert an `/api/…` auf derselben Domain.
+
+Der Server dafür ist nicht enthalten. Ohne ihn schlagen nur diese Aufrufe fehl,
+das Spiel selbst läuft normal. Wer die Funktionen betreibt, beschreibt sie in
+`datenschutz.html` (Vorlage enthält die Abschnitte 3a und 3b).
 
 ## Hinweis
 
@@ -37,5 +44,7 @@ höchstens 100 Zeichen pro Zeile. Vor einem Commit einfach `npx prettier --write
 
 ## Lizenz
 
-Code: MIT (`LICENSE`). Schriften: SIL Open Font License 1.1 (Press Start 2P und IBM Plex, `assets/fonts/OFL-LIZENZ.txt`).
-Alle Grafiken entstehen im Code, ohne fremde Bilddateien.
+Code: MIT (`LICENSE`). Schriften: SIL Open Font License 1.1 (Press Start 2P und IBM Plex,
+`assets/fonts/OFL-LIZENZ.txt`).
+Alle Grafiken entstehen im Code, ohne fremde Bilddateien. Code und Grafiken entstanden mit
+Unterstützung von KI.

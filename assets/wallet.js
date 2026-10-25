@@ -27,6 +27,7 @@
    ============================================================ */
 
 import { lade, speichere } from "./storage.js";
+import { melden } from "./bestenliste.js";
 
 export const STARTGELD = 1000;
 const SPIEL = "casino"; // gemeinsamer Namensraum für alle Casino-Spiele
@@ -76,6 +77,12 @@ export function rundeAbschliessen(einsatz, auszahlung) {
   }
   if (neuerStand > lade(SPIEL, "hoechsterKontostand", STARTGELD)) {
     speichere(SPIEL, "hoechsterKontostand", neuerStand);
+    // Weltweite Liste "Höchster Kontostand" (sendet nur neue Bestwerte)
+    melden(
+      "casino-kontostand",
+      neuerStand,
+      String(lade("global", "initialen", "")).slice(0, 3) || "???",
+    );
   }
   return neuerStand;
 }

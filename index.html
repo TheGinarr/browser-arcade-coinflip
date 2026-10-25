@@ -3,15 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#07070f" />
+    <meta name="theme-color" content="#07070f" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f2f3f9" media="(prefers-color-scheme: light)" />
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./assets/style.css" />
+    <script src="./assets/thema.js?v=20261024"></script>
+    <link rel="stylesheet" href="./assets/style.css?v=20261024w" />
     <!-- spielspezifische Styles (3D-Münze, Wurf-Animation) – das gemeinsame Design bleibt in ../assets/style.css -->
-    <link rel="stylesheet" href="./spiel.css" />
+    <link rel="stylesheet" href="./spiel.css?v=20261024t" />
+    <link rel="stylesheet" href="./assets/kartentisch.css?v=20261024d" />
     <title>Coinflip · Browser-Arcade</title>
     <meta
       name="description"
-      content="Coinflip: Kopf oder Zahl? Und manchmal landet die Münze auf der Kante. Arcade: baue die längste Kette richtiger Tipps. Casino: tippe mit Spielgeld auf Kopf, Zahl oder Kante. Mit 3D-Münzwurf, ohne Konto und Cookies."
+      content="Coinflip: Kopf oder Zahl? Und manchmal landet die Münze auf der Kante. Arcade: baue die längste Kette richtiger Tipps. Casino: tippe mit Spielgeld auf Kopf, Zahl oder Kante. Mit 3D-Münzwurf, ohne Konto und ohne eigene Cookies."
     />
   </head>
   <body style="--ak: var(--gold)">
@@ -62,7 +65,7 @@
         <div class="hud-wallet" id="wallet-hud"></div>
       </div>
 
-      <div class="buehne">
+      <div class="buehne filztisch">
         <!--
         Die Münze besteht nur aus HTML + Inline-SVG (kein Bild, keine Fremdgrafik):
           .muenze-hub      springt nach oben und wieder herunter (CSS-Keyframes)
@@ -396,7 +399,7 @@
       </div>
 
       <section class="top-bereich">
-        <h2 id="topliste-titel">Lokale Top 3 · Längste Kette</h2>
+        <h2 id="topliste-titel">Topliste · Längste Kette</h2>
         <div id="topliste"></div>
         <button class="knopf" id="reset" type="button">Spielstand zurücksetzen</button>
         <p id="reset-hinweis" class="reset-hinweis" hidden>
